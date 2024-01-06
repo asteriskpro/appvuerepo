@@ -11,7 +11,7 @@
           our features and curriculum</p>
         <div class="flex justify-center">
           <a class="inline-block py-4 px-10 free-btn text-md " href="#">
-            TRY FOR FREE  LAYE DIAW LE MASTER 
+            TRY FOR FREE  LAYE DIAW LE MASTER 1
           </a>
           <a class="inline-block py-4 px-10 bg-btn text-md " href="#">
             SIGN UP NOW
