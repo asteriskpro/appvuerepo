@@ -29,8 +29,8 @@ jobs:
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.nfp_scTsbMLDPdZxfXcpqKAFmuBsxWoRMRTv8e68 }}
+          NETLIFY_SITE_ID: ${{ secrets.b6253a4d-3d6e-4f8e-9563-7fadcc529d8a }}
         with:
           args: deploy --dir=build --prod
           secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
