@@ -1,36 +1,59 @@
-#  Name of workflow
-name: Production workflow
+name: Vue CI/CD
 
-# When workflow is triggered
 on:
   push:
-     branches:
+    branches: 
       - main
+ # Trigger on pushes to the main branch
+  #pull_request:
+    #branches: [main]  # Also trigger on pull requests to main
 
-# Jobs to carry out
 jobs:
-  deploy:
-    # Operating system to run job on
+  build:
     runs-on: ubuntu-latest
-    # Steps in job
+
     steps:
-      # Get code from repo
-      - name: Checkout code
-        uses: actions/checkout@v1
-      # Install NodeJS
+      - uses: actions/checkout@v3
       - name: Use Node.js 20.9.0
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 20.9.0
-      # Run npm install and build on our code
-      - run: npm install
-      - run: npm run build --if-present
-      # Deploy to Netlify using our production secrets
-      - name: Deploy to netlify
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 20.9.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build, test]  # Depend on successful build and test jobs
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 20.9.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0
+      - name: Install dependencies
+        run: npm install
+      - name: Deploy to Netlify environment  # Replace with your specific deployment steps
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.nfp_scTsbMLDPdZxfXcpqKAFmuBsxWoRMRTv8e68 }}
           NETLIFY_SITE_ID: ${{ secrets.b6253a4d-3d6e-4f8e-9563-7fadcc529d8a }}
         with:
           args: deploy --dir=build --prod
-          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+          secrets: '["NETLIFY_AUTH_TOKEN","NETLIFY_SITE_ID"]'
